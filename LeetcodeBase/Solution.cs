@@ -98,7 +98,7 @@ namespace LeetcodeBase
         }
 
         /// <summary>
-        /// VI sammenligner hvert array index med alle de andre, her skal tænkes nested loop.
+        /// VI sammenligner hvert array index med alle de andre, her skal tænkes Nested loops: O(n²).
         /// Derudover vil vi ikke sammenligne med et tal med sig selv derfor er j != i nødvendig
         /// </summary>
         /// <param name="nums"></param>
@@ -111,7 +111,7 @@ namespace LeetcodeBase
                 int count = 0;
                 for (int j = 0; j < nums.Length; j++)
                 {
-                    if(j != i && nums[j] < nums[i])
+                    if (j != i && nums[j] < nums[i])
                     {
                         count++;
                     }
@@ -119,6 +119,93 @@ namespace LeetcodeBase
                 result[i] = count;
             }
             return result;
+        }
+        /// <summary>
+        /// Prøver at lave et tælle array da den er mere beregningseffektiv O(n)
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<int> FindDisappearedNumbers(int[] nums) {
+            //find størrelsen
+            int n = nums.Length;
+            // et tælle array
+            int[] count = new int[n + 1];
+
+            foreach (int num in nums)
+            {
+                count[num]++;// kigger på værdien i hver index og lægger derefter til det pågældende index værdi i count.
+            }
+
+
+
+            IList<int> missingNumbers = new List<int>();
+
+            for (int i = 1; i < count.Length; i++)
+            {
+                // vi kigger på de tal som mangler dvs 0 i arrayet
+                if (count[i] == 0)
+                {
+                    missingNumbers.Add(i); // derefter adder vi det index som mangler til vores liste
+                }
+
+            }
+
+            return missingNumbers;
+
+        }
+
+        public string MergeAlternately(string word1, string word2) {
+            //resulting length should be the 2 words combined
+            // den mindste længde er det mindste ord
+            int min = Math.Min(word1.Length, word2.Length);
+
+            // empty stríng to fill some into it
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < min; i++)
+            {
+
+                stringBuilder.Append(word1[i]);
+                stringBuilder.Append(word2[i]);
+
+            }
+            for (int i = min; i < word1.Length; i++)
+            {
+                stringBuilder.Append(word1[i]);
+            }
+            for (int i = min; i < word2.Length; i++)
+            {
+                stringBuilder.Append(word2[i]);
+            }
+            return stringBuilder.ToString();
+        }
+
+        public char FindTheDifference(string s, string t) {
+            // vi har 2 array som har index fra alphabet altså 26 nuller i hvert
+            int[] counts = new int[26];
+            int[] countt = new int[26];
+         
+            foreach (char c in s)
+            {
+                counts[c -  'a']++;
+            }
+            foreach (char c in t)
+            {
+                countt[c - 'a']++;
+            }
+
+            // Return the letter that was added to t. så gemmer i en tom char
+            char addedLetter = '\0';
+
+            for (int i = 0; i < counts.Length; i++)
+            {
+                if( countt[i] == counts[i] + 1)
+                {
+                    //'a' + i giver ascii værdien for det korrekte tal!
+                    addedLetter = (char)('a' + i);
+                }
+            }
+            return addedLetter;
         }
     }
 }
